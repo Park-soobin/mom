@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>그동안 감사했습니다 🍀</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <meta property="og:description" content="2020을 추억하며">
+    <meta property="og:title" content="클로버의 카드">
+    
+    <style>
+        * {
+            /* 📌 폰트 변경 적용: IBM Plex Sans KR */
+            font-family: 'IBM Plex Sans KR', sans-serif;
+        }
+        body {
+            /* 배경색: 버건디색 */
+            background-color: #9b070f;
+        }
+        
+        /* 1. 처음 화면: 클로버 이모지 스타일 */
+        .clover-emoji {
+            width: 200px; 
+            height: 200px; 
+            margin: 200px auto 0px auto;
+            cursor: pointer;
+            text-align: center;
+            line-height: 200px;
+            font-size: 150px;
+            text-shadow: 0px 0px 15px rgba(255, 255, 255, 0.7); 
+        }
+        .clover-msg {
+            color: white;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 24px;
+        }
+        .letter-close {
+            display: block;
+        }
+        .letter-open {
+            display: none;
+            text-align: center; 
+        }
+        
+        /* 3. 편지 화면 상단 이미지 */
+        .main-image {
+            width: 200px;
+            height: 200px;
+            background-image: url('images/IMG_2840.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-color: white;
+            margin: 80px auto 30px auto; 
+            border-radius: 100px; 
+            border: 5px solid white;
+            box-shadow: 0px 0px 15px 0px white;
+        }
+        
+        h1 {
+            text-align: center;
+            color: white;
+            margin-top: 0px;
+            margin-bottom: 30px;
+            font-size: 32px; 
+        }
+        /* 2. 비밀번호 입력창 스타일 */
+        .password-input-box {
+            width: 350px;
+            margin: 150px auto 0px auto;
+            padding: 30px;
+            background-color: #FFFFFF; 
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+        .password-input-box p {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        #password {
+            width: 80%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            font-size: 18px;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        #password:focus {
+            border-color: #9b070f;
+        }
+        #submit-btn {
+            padding: 12px 25px;
+            background-color: #9b070f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+        #submit-btn:hover {
+            background-color: #7a060c;
+        }
+
+        /* 3. 편지지 크기 */
+        .messagebox {
+            width: 700px; 
+            margin: auto;
+            font-size: 24px; 
+            line-height: 38px; 
+            background-color: ivory;
+            color: #333; 
+            padding: 40px; 
+            box-shadow: 0px 0px 15px 0px white;
+            min-height: 250px; 
+            text-align: left; 
+        }
+        .from {
+            text-align: right;
+            margin-top: 25px;
+            margin-bottom: 0px;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        /* 반응형 디자인 */
+        @media screen and (max-width: 760px) {
+            .messagebox {
+                width: 90%;
+                max-width: none;
+                font-size: 18px;
+                line-height: 28px;
+                padding: 20px;
+            }
+            .clover-emoji {
+                width: 150px;
+                height: 150px;
+                margin: 150px auto 0px auto;
+                font-size: 100px;
+                line-height: 150px;
+            }
+            .main-image {
+                width: 150px;
+                height: 150px;
+                margin: 50px auto 20px auto;
+                border-radius: 75px;
+            }
+            h1 {
+                font-size: 28px;
+            }
+            .password-input-box {
+                width: 90%;
+            }
+        }
+    </style>
+    <script>
+        // 메시지 데이터 유지
+        const messages = {
+            '2093': { title: '우리 현례씨 힘내 🍀', content: '현례씨, 오늘 외할머니 잘 보내드리고 왔지?/n하늘에서 유모차 없이 뛰어다니면서 행복하게 계실테니까 너무 슬퍼하지말고, 우리 현례씨도 아프지 마./n항상 Happy하고 Lucky한 현례씨가 되셔 !', from: '현례씨 딸내미' }};
+
+        // 📌 [클로버 클릭 기능] 편지 닫힘 화면을 숨기고 비밀번호 입력 화면을 표시
+        function open_letter() {
+            document.getElementsByClassName("letter-close")[0].style.display = 'none';
+            document.getElementById("password-section").style.display = 'block';
+            document.getElementById("password").focus();
+        }
+
+        // 비밀번호 확인 및 편지 내용 표시
+        function check_password() {
+            const password = document.getElementById('password').value;
+            const messageData = messages[password];
+
+            if (messageData) {
+                document.getElementById("password-section").style.display = 'none';
+                document.getElementsByClassName("letter-open")[0].style.display = 'block';
+
+                document.getElementById('message-title').textContent = messageData.title;
+                // 내용에 줄바꿈(<br />) 적용
+                document.getElementById('message-content').innerHTML = messageData.content.replace(/\n/g, '<br />'); 
+                
+                // 📌 ['가' 제거] 보낸 사람 이름만 출력
+                document.getElementById('message-from').textContent = messageData.from;
+                
+                // 오늘 날짜를 YYYY.MM.DD 형식으로 표시
+                document.getElementById('message-date').textContent = new Date().toISOString().slice(0, 10).replace(/-/g, '.');
+
+            } else {
+                alert('비밀번호가 일치하지 않습니다. 다시 시도해 주세요.');
+                document.getElementById('password').value = '';
+            }
+        }
+        
+        // 📌 [안정성 확보] DOM 로드 후 'Enter' 키 이벤트를 한 번만 등록
+        document.addEventListener("DOMContentLoaded", function() {
+            const passwordInput = document.getElementById("password");
+            // password input이 존재할 경우에만 이벤트 리스너 등록
+            if (passwordInput) {
+                passwordInput.addEventListener("keypress", function(event) {
+                    if (event.key === "Enter") {
+                        event.preventDefault(); // 기본 동작(폼 제출 등) 방지
+                        check_password();
+                    }
+                });
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <div class="letter-close">
+        <div class="clover-emoji" onclick="open_letter()">
+            🍀
+        </div>
+        <h2 class="clover-msg">클로버를 눌러보십쇼 !</h2>
+    </div>
+
+    <div id="password-section" style="display:none;">
+        <div class="password-input-box">
+            <p>메시지를 확인하려면</p>
+            <input type="password" id="password" placeholder="비밀번호를 입력하세요 (예: 1001)">
+            <button id="submit-btn" onclick="check_password()">메시지 확인</button>
+        </div>
+    </div>
+    
+    <div class="letter-open">
+        <div class="main-image">
+        </div>
+        <h1 id="message-title">그동안 감사했습니다 🍀</h1>
+        <div class="messagebox">
+            <span id="message-content"></span>
+            <p class="from"><span id="message-date"></span>. <span id="message-from"></span></p>
+        </div>
+    </div>
+
+    <script src="https://s3.ap-northeast-2.amazonaws.com/materials.spartacodingclub.kr/xmas/snow.js"></script>
+</body>
+</html>
